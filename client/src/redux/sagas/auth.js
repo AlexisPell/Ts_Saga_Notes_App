@@ -21,6 +21,7 @@ function* workerRegister({ action }) {
 	try {
 		const res = yield call(registerUser, action)
 		yield put({ type: REGISTER_SUCCESS, payload: res.token })
+		yield call(workerKeepLogged)
 	} catch (error) {
 		yield put({ type: REGISTER_FAIL, payload: error })
 	}
@@ -34,6 +35,7 @@ function* workerLogin({ action }) {
 	try {
 		const res = yield call(loginUser, action)
 		yield put({ type: LOGIN_SUCCESS, payload: res.token })
+		yield call(workerKeepLogged)
 	} catch (error) {
 		yield put({ type: LOGIN_FAIL, payload: error })
 	}

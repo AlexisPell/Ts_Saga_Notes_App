@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { login } from './../../redux/actions/auth'
 import { setAlert } from './../../redux/actions/alert'
 
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
-const Login = ({ login }) => {
+const Login = ({ login, setAlert, auth: { isAuthenticated, loading } }) => {
 	const [form, setForm] = useState({
 		email: '',
 		password: '',
@@ -20,7 +20,16 @@ const Login = ({ login }) => {
 			setAlert('Password is 6 or more chars :)', 'danger')
 		} else {
 			login(form)
+			setForm({
+				email: '',
+				password: '',
+			})
 		}
+	}
+
+	if (isAuthenticated && !loading) {
+		setAlert('Successfully logged in! :)', 'success')
+		return <Redirect to='notes' />
 	}
 
 	return (
@@ -62,4 +71,8 @@ const Login = ({ login }) => {
 	)
 }
 
-export default connect(null, { login })(Login)
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+})
+
+export default connect(mapStateToProps, { login, setAlert })(Login)

@@ -4,7 +4,7 @@ const ErrorResponce = require('./../utils/errorResponse')
 const User = require('./../models/User')
 
 exports.protect = asyncHandler(async (req, res, next) => {
-	let token = req.header('x-auth-token')
+	let token = req.header('authorization')
 
 	if (!token) {
 		return next(new ErrorResponce('Not authorized for this route...', 401))

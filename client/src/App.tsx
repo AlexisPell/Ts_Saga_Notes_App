@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
+import './App.css'
 import { Route, Switch } from 'react-router-dom'
 import store from './redux/store'
 import { keepLogged } from './redux/actions/auth'
+import PrivateRoute from './routing/PrivateRoute'
 
 import Navbar from './components/layouts/Navbar'
 import Alert from './components/layouts/Alert'
@@ -23,9 +25,9 @@ const App = () => {
 				<Alert />
 				<Switch>
 					<Route exact path='/' component={Landing} />
-					<Route exact path='/notes' component={Notes} />
 					<Route exact path='/login' component={Login} />
 					<Route exact path='/register' component={Register} />
+					<PrivateRoute exact path='/notes' component={Notes} />
 				</Switch>
 			</div>
 		</div>

@@ -1,11 +1,4 @@
-import {
-	takeEvery,
-	takeLatest,
-	put,
-	call,
-	fork,
-	delay,
-} from 'redux-saga/effects'
+import { takeEvery, put, fork, delay } from 'redux-saga/effects'
 import { SET_ALERT } from './../constants'
 import { removeAlert } from './../actions/alert'
 

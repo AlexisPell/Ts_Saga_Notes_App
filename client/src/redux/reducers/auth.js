@@ -7,6 +7,7 @@ import {
 	AUTH_ERROR,
 	LOGOUT,
 } from './../constants'
+import { setAlert } from './../actions/alert'
 
 const initialState = {
 	token: localStorage.getItem('token'),
@@ -38,6 +39,7 @@ export default (state = initialState, action) => {
 		case AUTH_ERROR:
 		case LOGOUT:
 			localStorage.removeItem('token')
+			setAlert('Successfully authorised!', 'success')
 			return {
 				...state,
 				token: null,
