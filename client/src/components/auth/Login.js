@@ -1,16 +1,51 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import { login } from './../../redux/actions/auth'
+import { setAlert } from './../../redux/actions/alert'
+
 import { Link } from 'react-router-dom'
 
-const Login = () => {
+const Login = ({ login }) => {
+	const [form, setForm] = useState({
+		email: '',
+		password: '',
+	})
+	const { email, password } = form
+
+	const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+
+	const onSubmit = (e) => {
+		e.preventDefault()
+		if (password.length < 6) {
+			setAlert('Password is 6 or more chars :)', 'danger')
+		} else {
+			login(form)
+		}
+	}
+
 	return (
-		<form className='my-5 w-75 mx-auto'>
+		<form className='my-5 w-75 mx-auto' onSubmit={onSubmit}>
 			<div className='form-group'>
 				<label>Email address</label>
-				<input type='email' className='form-control' required />
+				<input
+					type='email'
+					className='form-control'
+					value={email}
+					name='email'
+					onChange={onChange}
+					required
+				/>
 			</div>
 			<div className='form-group'>
 				<label>Password</label>
-				<input type='password' className='form-control' required />
+				<input
+					type='password'
+					className='form-control'
+					value={password}
+					name='password'
+					onChange={onChange}
+					required
+				/>
 			</div>
 			<small className='form-text text-muted mx-right text-right'>
 				Not registered yet?
@@ -27,4 +62,4 @@ const Login = () => {
 	)
 }
 
-export default Login
+export default connect(null, { login })(Login)

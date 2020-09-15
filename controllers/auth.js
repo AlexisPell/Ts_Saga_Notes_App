@@ -4,7 +4,7 @@ const ErrorResponse = require('./../utils/errorResponse')
 const User = require('./../models/User')
 
 // @desc    Register user
-// @route   POST /api/v1/auth/register
+// @route   POST /api/auth/register
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
 	const { name, email, password } = req.body
@@ -15,7 +15,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 })
 
 // @desc    Login user
-// @route   POST /api/v1/auth/login
+// @route   POST /api/auth/login
 // @access  Public
 exports.login = asyncHandler(async (req, res, next) => {
 	const { email, password } = req.body
@@ -44,7 +44,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 })
 
 // @desc    Get me
-// @route   POST /api/v1/auth/me
+// @route   POST /api/auth/me
 // @access  Private
 exports.getMe = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(req.user.id)
@@ -71,5 +71,8 @@ const sendTokenResponce = (user, statusCode, res) => {
 	}
 
 	// Key(name of cookie), token, options
-	res.status(statusCode).cookie('token', token, options).json({ token })
+	res
+		.status(statusCode)
+		.cookie('token', token, options)
+		.json({ success: true, token })
 }

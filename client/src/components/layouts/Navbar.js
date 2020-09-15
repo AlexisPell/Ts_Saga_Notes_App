@@ -1,7 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { logout } from './../../redux/actions/auth'
+
 import { Link } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = ({ logout }) => {
 	return (
 		<nav className='navbar navbar-expand-sm navbar-light bg-secondary'>
 			<Link className='navbar-brand mt-2' to='/'>
@@ -25,12 +28,15 @@ const Navbar = () => {
 						name='text'
 					/>
 				</form>
-				<button className='btn btn-sm btn-dark rounded-circle'>
-					<i class='fas fa-sign-out-alt fa-sm'></i>
+				<button
+					onClick={() => logout()}
+					className='btn btn-sm btn-dark rounded-circle'
+				>
+					<i className='fas fa-sign-out-alt fa-sm'></i>
 				</button>
 			</div>
 		</nav>
 	)
 }
 
-export default Navbar
+export default connect(null, { logout })(Navbar)

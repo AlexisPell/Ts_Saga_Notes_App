@@ -4,23 +4,14 @@ const ErrorResponce = require('./../utils/errorResponse')
 const User = require('./../models/User')
 
 exports.protect = asyncHandler(async (req, res, next) => {
-	let token
+	let token = req.header('x-auth-token')
 
-	if (
-		req.headers.authorization &&
-		req.headers.authorization.startsWith('Bearer')
-	) {
-		token = req.headers.authorization.split(' ')[1]
-	}
-
-	// Check if token exists
 	if (!token) {
 		return next(new ErrorResponce('Not authorized for this route...', 401))
 	}
 
 	// Verify token
 	try {
-		// decoded returns { id: ... , iat: ... , exp: ... }
 		const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
 		req.user = await User.findById(decoded.id)
